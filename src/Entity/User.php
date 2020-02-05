@@ -28,12 +28,12 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $secondName;
 
@@ -53,9 +53,14 @@ class User implements UserInterface
     private $birthdate;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $gender;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $login;
 
     public function getId(): ?int
     {
@@ -109,6 +114,7 @@ class User implements UserInterface
     public function getPassword()
     {
         // not needed for apps that do not check user passwords
+        return $this->password;
     }
 
     /**
@@ -189,6 +195,18 @@ class User implements UserInterface
     public function setGender(string $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): self
+    {
+        $this->login = $login;
 
         return $this;
     }

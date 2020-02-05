@@ -1,6 +1,6 @@
 # Simple Messenger
 
-##Setup
+#Setup
 
 Thanks to download the code. 
 

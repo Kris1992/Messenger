@@ -1,0 +1,97 @@
+@import './helper/variables';
+
+.main-container {
+    display: flex;
+    align-items: stretch;
+}
+
+/*SIDEBAR*/
+
+#sidebar {
+    min-height: 100vh;
+    min-width: 250px;
+    max-width: 250px;
+    background: linear-gradient(150deg, rgb(40, 20, 131) 15%, rgb(143, 110, 213) 70%, rgb(215, 130, 217) 94%);
+    color: #fff;
+    transition: all 0.3s;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+}
+
+#sidebar.active {
+    min-width: 125px;
+    max-width: 125px;
+    text-align: center;
+}
+
+#sidebar.active .sidebar-header h4,
+#sidebar.active .sidebar-footer {
+    display: none;
+}
+
+#sidebar.active .sidebar-header strong {
+    display: block;
+    font-size: 1.33em;
+}
+
+#sidebar ul li a {
+    text-align: left;
+}
+
+#sidebar ul li a.menu-item {
+     color: #fff;
+}
+
+#sidebar ul li a:hover {
+    color: $btn_purple;
+    text-decoration: none;
+}
+
+#sidebar.active ul li a {
+    padding: 20px 10px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+#sidebar.active ul li a i {
+    margin-right: 0px;
+    display: block;
+    font-size: 1.8em;
+    margin-bottom: 7px;
+}
+
+#sidebar .sidebar-header strong {
+    display: none;
+}
+
+#sidebar ul.menu-wrapper {
+    padding-bottom: 25px;
+    border-bottom: 1px dashed $primary;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#sidebar ul li a i {
+    margin-right: 5px;
+}
+
+ul.sidebar-footer {
+    padding: 15px;
+}
+
+ul.sidebar-footer a {
+    font-size: 0.7em !important;
+}
+
+

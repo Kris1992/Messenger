@@ -14,3 +14,9 @@ import 'bootstrap';
 //import 'font-awesome/css/font-awesome.css';
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+
+ //$(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+   //     });
