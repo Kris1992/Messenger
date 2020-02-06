@@ -96,6 +96,8 @@
 
 
             <main>
+
+                <div id="react-chatbox"></div>
                {#
                 { if is_granted('ROLE_PREVIOUS_ADMIN') %}
                     <div class="alert alert-warning" style="margin-bottom: 0;">
@@ -114,6 +116,8 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('chatbox_react') }}
+
         {% endblock %}
     </body>
 </html>

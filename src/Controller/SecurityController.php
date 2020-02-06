@@ -30,7 +30,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="app_login", methods={"POST"})
      */
-    public function login()
+    public function login(): void 
     {
 
     }
@@ -38,7 +38,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/logout", name="app_logout",  methods={"GET"})
      */
-    public function logout()
+    public function logout(): void
     {
 
     }
@@ -49,7 +49,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/api/is_user_unique", name="api_isUserUnique")
      */
-    public function isUserUnique(Request $request, UserRepository $userRepository)
+    public function isUserUnique(Request $request, UserRepository $userRepository): Response
     {
         $fields = array('email', 'login');
         $fieldData = json_decode($request->getContent(), true);
@@ -78,14 +78,13 @@ class SecurityController extends AbstractController
         ];
         
         return new JsonResponse($responseMessage, Response::HTTP_BAD_REQUEST);
-        
     }
     
     /**
      * @Route("/api/register", name="api_register")
      */
-    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, FormErrorTransformerInterface $formErrorTransformer, string $secret_key
-    ) {   
+    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, FormErrorTransformerInterface $formErrorTransformer, string $secret_key): Response
+    {   
         
         $userData = json_decode($request->getContent(), true);
 

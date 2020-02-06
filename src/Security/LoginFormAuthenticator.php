@@ -75,7 +75,11 @@ class LoginFormAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        return new JsonResponse(['url' => $this->router->generate('app_chatbox')]);
+        return new JsonResponse(['url' => $this->router->generate('app_chatbox', 
+            [
+                'reactRouting' => 'chats',
+            ]
+        )]);
     }
 
     public function start(Request $request, AuthenticationException $authException = null)

@@ -15,12 +15,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class ChatController extends AbstractController
 {
     /**
-     * @Route("/chatbox", name="app_chatbox")
+     * @Route("/chatbox/{reactRouting}", name="app_chatbox", defaults={"reactRouting": null})
      */
     public function index()
-    {
-        return $this->render('chat/index.html.twig', [
-            
-        ]);
+    {   
+        return $this->render('chat/index.html.twig');
     }
 }

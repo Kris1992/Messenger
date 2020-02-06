@@ -27,6 +27,7 @@ Encore
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
     .addEntry('homepage_react', './assets/js/homepage_react.js')
+    .addEntry('chatbox_react', './assets/js/chatbox_react.js')
 
 
     .addStyleEntry('homepage', './assets/css/homepage.scss')

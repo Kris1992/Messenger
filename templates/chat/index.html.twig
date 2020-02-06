@@ -1,6 +1,28 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Messenger"/>
+        <meta name="keywords" content="Messenger"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+        <meta name="author" content="KrakovDev01">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        
+        <title>{% block title %}Messenger{% endblock %}</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            {{ encore_entry_link_tags('sidebar') }}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="main-container" id="react-chatbox">
+            
+        </div>
 
-{% block title %}Messenger - Chatbox{% endblock %}
 
-{% block body %}
-{% endblock %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('chatbox_react') }}
+        {% endblock %}
+    </body>
+</html>

@@ -41,12 +41,17 @@
 }
 
 #sidebar ul li a.menu-item {
-     color: #fff;
+    color: #fff;
 }
 
 #sidebar ul li a:hover {
     color: $btn_purple;
     text-decoration: none;
+}
+
+#sidebar ul li a.menu-item.active {
+    color: $btn_purple;
+    
 }
 
 #sidebar.active ul li a {

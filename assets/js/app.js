@@ -15,8 +15,3 @@ import 'bootstrap';
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
- //$(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-            });
-   //     });
