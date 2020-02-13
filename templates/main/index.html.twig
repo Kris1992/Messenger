@@ -29,6 +29,9 @@
             </main>
         </div>
         {% block javascripts %}
+        <script type="text/javascript">
+            window.HOMEPAGE_APP_PROPS = {{ HomepageAppProps|json_encode|raw }};
+        </script>
         {{ encore_entry_script_tags('app') }}
         {{ encore_entry_script_tags('homepage_react') }}
         {% endblock %}

@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use App\Api\ApiRoute;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\User;
@@ -35,6 +37,11 @@ class AccountController extends AbstractController
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
-        dump($user);
+        $userData = [
+            'login' => $user->getLogin(),
+            'roles' => $user->getRoles()
+        ];
+
+        return new JsonResponse($userData, Response::HTTP_OK);
     }
 }

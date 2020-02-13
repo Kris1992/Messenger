@@ -79,7 +79,7 @@ export default class LoginPage extends Component {
 
     const { emptyFieldErrors } = this.state;
 
-    const { loginServerValidationErrorMessage } = this.props;
+    const { loginServerValidationErrorMessage, onRegisterClick } = this.props;
 
         return (
         <React.Fragment>
@@ -121,6 +121,9 @@ export default class LoginPage extends Component {
                             </div>
                         </div>
                     </div>
+                    <div className="col-12">
+                        <strong><a href="#" className="anchor" onClick={() =>  onRegisterClick()}>Create new Account</a></strong>
+                    </div>
                     <div className="col-md-6 mx-auto my-2">
                         <button type="submit" className="btn btn-block btn-white">
                             Login
@@ -136,4 +139,5 @@ export default class LoginPage extends Component {
 LoginPage.propTypes = {
     onLoginAction: PropTypes.func.isRequired,
     loginServerValidationErrorMessage: PropTypes.string.isRequired,
+    onRegisterClick: PropTypes.func.isRequired,
 };

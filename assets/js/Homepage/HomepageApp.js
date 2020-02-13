@@ -21,8 +21,9 @@ export default class HomepageApp extends Component {
                 plainPassword: '',
                 agreeTerms: '',
                 recaptcha: '',
+                statusError: '',
             },
-            successMessage: ''
+            successMessage: '',
 
         };
         this.handleLoginButtonClick = this.handleLoginButtonClick.bind(this);
@@ -36,11 +37,17 @@ export default class HomepageApp extends Component {
     //Event Handlers:
 
     handleLoginButtonClick() {
-        this.setState({isLoginPage: true});
+        this.setState({
+            isRegisterPage: false,
+            isLoginPage: true
+        });
     }
 
     handleRegisterButtonClick() {
-        this.setState({isRegisterPage: true});
+        this.setState({
+            isRegisterPage: true,
+            isLoginPage:false
+        });
     }
 
     handleLoginAction(email, plainPassword) {
@@ -83,12 +90,15 @@ export default class HomepageApp extends Component {
 
     handleRegisterAction(userData) {
         this.clearServerValidationErrors('register');
-
         registerAction(userData).then(result => {
             this.setSuccessMessage(result['message']);
         }).catch(errors => {
-            console.log(errors);
-            this.bindErrorsToForms(errors);
+            if(errors.errorMessage) {
+                this.updateRegisterValidationMessages('statusError', errors.errorMessage);
+            } else {
+                this.bindErrorsToForms(errors);
+            }
+            
         });
     }
 
@@ -138,7 +148,7 @@ export default class HomepageApp extends Component {
         const newState = Object.fromEntries(Object.entries(this.state.registerServerValidationMessages).map(([key, value]) => [key, '']));
             this.setState({
                 registerServerValidationMessages: newState
-                });
+            });
         }
 
     }
@@ -172,4 +182,5 @@ export default class HomepageApp extends Component {
 }
 
 HomepageApp.propTypes = {
+    googlePublic: PropTypes.string.isRequired, 
 }

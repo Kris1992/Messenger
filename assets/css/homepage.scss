@@ -1,3 +1,5 @@
+@import './helper/variables';
+
 * {
   margin: 0;
   padding: 0;  
@@ -80,5 +82,14 @@
     -webkit-transform:scale(0.7);
     transform-origin:0 0;
     -webkit-transform-origin:0 0;
+}
+
+.anchor {
+    color: $btn_orange;
+}
+
+.anchor:hover {
+    color: $btn_purple;
+    text-decoration: none;
 }
 

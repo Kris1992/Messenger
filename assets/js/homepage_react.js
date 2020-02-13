@@ -4,7 +4,9 @@ import HomepageApp from './Homepage/HomepageApp';
 
 
 render(
-     <HomepageApp />,
+    <HomepageApp 
+        {...window.HOMEPAGE_APP_PROPS}
+    />,
      document.getElementById('react-homepage')
     
 );

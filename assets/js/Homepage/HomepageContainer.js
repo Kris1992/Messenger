@@ -16,14 +16,17 @@ export default function HomepageContainer(props) {
         registerServerValidationMessages,
         onLoginClick,
         onRegisterClick,
-        successMessage
+        successMessage,
+        googlePublic,
     } = props;
+    
 
     if(isLoginPage) {
         return (
             <LoginPage
             onLoginAction={onLoginAction}
             loginServerValidationErrorMessage={loginServerValidationErrorMessage}
+            onRegisterClick = {onRegisterClick}
             />
         );
     } else if(isRegisterPage) {
@@ -33,6 +36,8 @@ export default function HomepageContainer(props) {
             onFieldValidation={onFieldValidation}
             registerServerValidationMessages={registerServerValidationMessages}
             successMessage={successMessage}
+            googlePublic={googlePublic}
+            onLoginClick={onLoginClick}
             />
         );
     } else {
@@ -66,6 +71,7 @@ HomepageContainer.propTypes = {
     onLoginClick: PropTypes.func.isRequired,
     onRegisterClick: PropTypes.func.isRequired,
     successMessage: PropTypes.string.isRequired,
+    googlePublic: PropTypes.string.isRequired
 };
 
 

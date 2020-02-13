@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Chatbox from './Components/Chatbox';
+import ChatboxApp from './Components/ChatboxApp';
 
 
 render(
-    <Chatbox />,
+    <ChatboxApp />,
     document.getElementById('react-chatbox')
 );
 

@@ -67,8 +67,7 @@ export default class RegisterPage extends Component {
     render() {
 
     const { recaptchaError } = this.state;
-    const { registerServerValidationMessages, successMessage } = this.props;
-
+    const { registerServerValidationMessages, successMessage, googlePublic, onLoginClick } = this.props;
 
         return (
         <React.Fragment>
@@ -99,6 +98,16 @@ export default class RegisterPage extends Component {
                         <div className="col-md-8 mt-4 mx-auto">
                             <div className="alert alert-danger alert-dismissible fade show" role="alert">
                                 {registerServerValidationMessages['recaptcha']}
+                                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                    {registerServerValidationMessages['statusError'] && (
+                        <div className="col-md-8 mt-4 mx-auto">
+                            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                                {registerServerValidationMessages['statusError']}
                                 <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -207,14 +216,17 @@ export default class RegisterPage extends Component {
                     <div className="form-group col-md-6" id="captcha-container">
                         <ReCAPTCHA
                             ref={this.recaptchaRef}
-                            sitekey="6LdDBZ4UAAAAAOX0j6KiM7KoUjI8TIt0V8I7mxFg"
+                            sitekey={googlePublic}
                             size="normal"
                         />
                     </div>
-                    <div className="col-md-6 mx-auto my-2">
+                    <div className="col-md-6 my-2">
                         <button type="submit" className="btn btn-block btn-black">
                             Register
                         </button>
+                    </div>
+                    <div className="col-md-6 my-2">
+                        <a href="#" className="btn btn-block btn-white"  onClick={() =>  onLoginClick()}>Login Page</a>
                     </div>
                 </div>
             </form>
@@ -226,5 +238,7 @@ RegisterPage.propTypes = {
     onRegisterAction: PropTypes.func.isRequired,
     onFieldValidation: PropTypes.func.isRequired,
     registerServerValidationMessages: PropTypes.object.isRequired,
-    successMessage: PropTypes.string.isRequired
+    successMessage: PropTypes.string.isRequired,
+    googlePublic: PropTypes.string.isRequired,
+    onLoginClick: PropTypes.func.isRequired,
 };

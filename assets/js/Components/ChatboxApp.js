@@ -7,11 +7,77 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import Chats from './Chats';
+import { getUserBasicData } from '../Api/user_api';
+
+
+import Chats from './Chats';//change to ChatsApp
 import About from './About';
 
-class Chatbox extends Component {
+export default class ChatboxApp extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            userData: {
+                'login': '',
+                'roles': '',
+            },
+            test: 'test'
+        };
+        //this.componentDidMount = this.componentDidMount.bind(this);
+        //this.updateStateField = this.updateStateField.bind(this);
+        //this.handleRowClick = this.handleRowClick.bind(this);
+        //this.handleAddRepLog = this.handleAddRepLog.bind(this);
+        //this.handleHeartChange = this.handleHeartChange.bind(this);
+        this.isAdmin = this.isAdmin.bind(this);
+    }
+
+    componentDidMount() {
+        getUserBasicData().then((user) => {
+
+                this.updateStateField('userData', 'login', user.login);
+                this.updateStateField('userData', 'roles', user.roles);
+                this.isAdmin();
+        });
+        
+    }
+
+    updateStateField(parentStateField = null, childStateField, newValue) {
+        if( parentStateField !== null) {
+            var newParentState = {};
+
+            const stateObj = this.state[`${parentStateField}`];
+
+
+            Object.entries(stateObj).map(([key, value]) => {
+                if(key === childStateField) {
+                    stateObj[`${key}`] = newValue;
+                }
+            });
+
+            newParentState[`${parentStateField}`] = stateObj;
+
+            this.setState(newParentState);
+            
+
+        } else {
+            console.log('parentStateField missing!');    
+        }
+
+    }
+
+
+    isAdmin() {
+        console.log(this.state.userData.roles);
+    }
+
+
+
+
   render() {
+
+    const { userData } = this.state;
+
     return (
       <Router>
             <nav id="sidebar">
@@ -33,28 +99,27 @@ class Chatbox extends Component {
                         </NavLink>
                     </li>
                     <li>
-                        <a href="" className="menu-item">
+                        <NavLink to="/chatbox/friends" className="menu-item" activeClassName="active">
                             <i className="fas fa-user-friends"></i>
                             Friends
-                        </a>
+                        </NavLink>
                     </li>
+
+
                     <li>
-                        <a href="" className="menu-item">
+                        <NavLink to="/chatbox/admin" className="menu-item" activeClassName="active">
                             <i className="fas fa-tools"></i>
                             Dashboard
-                        </a>
+                        </NavLink>
                     </li>
 
                 </ul>
                 <ul className="list-unstyled sidebar-footer">
                     <li>
-                        <Link to="/logout" className="btn btn-white">
+                        <a href="/logout" className="btn btn-white">
                             <i className="fas fa-sign-out-alt"></i>
                             <span>Logout</span>
-                        </Link>
-
-                        
-
+                        </a>
                     </li>
                 </ul>        
             </nav>
@@ -68,7 +133,7 @@ class Chatbox extends Component {
                     <ul className="navbar-nav m-auto text-uppercase">
                         <li className="nav-item">
                             <span>
-                                <a className="nav-link" href="">Welcome, kris</a>
+                                <a className="nav-link" href="">Welcome, <strong>{userData['login']}</strong> </a>
                             </span>
                         </li>
                     </ul>
@@ -86,7 +151,7 @@ class Chatbox extends Component {
 }
 
 
-export default Chatbox;
+//export default ChatboxApp;
 /*
                          <a href="" className="menu-item active">
                             <i className="fas fa-home"></i>
