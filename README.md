@@ -1,6 +1,7 @@
 # Simple Messenger
 
-#Setup
+
+# Setup
 
 Thanks to download the code. 
 
@@ -57,6 +58,12 @@ Have fun!
 ## Used Technologies
 
 TO DO
+
+## Next Week Patch (introduction to SCRUM flow) 
+
+:hourglass_flowing_sand: Improve this ugly error responses   
+:hourglass_flowing_sand: Add tests
+:hourglass_flowing_sand: Add User settings
 
 ## Have Ideas, Feedback or an Issue?
 

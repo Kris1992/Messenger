@@ -1,3 +1,5 @@
+import { getStatusError } from '../Api/error_api_helper';
+
 /*
 This function returns login and user_role from logged in user
 */
@@ -10,9 +12,14 @@ export function getUserBasicData(){
         }).then((data) => {
             resolve(data);
         }).catch((jqXHR) => {
-            const errorData = JSON.parse(jqXHR.responseText);
-            console.log('error');
-            //reject(errorData);
+            let statusError = [];
+            statusError = getStatusError(jqXHR);
+            if(statusError != null) {
+                reject(statusError);
+            } else {
+                const errorData = JSON.parse(jqXHR.responseText);
+                reject(errorData);
+            }
         });
     });
 }

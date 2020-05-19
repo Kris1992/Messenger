@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from '../Helpers/validationHelper';
+import { isEmpty } from '../Helpers/validation_helper';
 import ReCAPTCHA from "react-google-recaptcha";
 
 
@@ -207,7 +207,9 @@ export default class RegisterPage extends Component {
                         <div className="form-check">
                             
                             <input type="checkbox" name="agreeTerms" id="CheckboxTerms" ref={this.agreeTermsCheck} className={`form-check-input ${registerServerValidationMessages['agreeTerms'] ? 'is-invalid' : ''}`} required/>
-                            <label className="form-check-label" htmlFor="CheckboxTerms">Agree to Terms</label>
+                            <label className="form-check-label" htmlFor="CheckboxTerms">
+                                Agree to <strong><a href="#" className="anchor">Terms</a></strong>
+                                </label>
                                 <div className="invalid-feedback">
                                     <strong>{registerServerValidationMessages['agreeTerms']}</strong>
                                 </div>
@@ -220,12 +222,12 @@ export default class RegisterPage extends Component {
                             size="normal"
                         />
                     </div>
-                    <div className="col-md-6 my-2">
+                    <div className="col-md-6 my-1">
                         <button type="submit" className="btn btn-block btn-black">
                             Register
                         </button>
                     </div>
-                    <div className="col-md-6 my-2">
+                    <div className="col-md-6 my-1">
                         <a href="#" className="btn btn-block btn-white"  onClick={() =>  onLoginClick()}>Login Page</a>
                     </div>
                 </div>

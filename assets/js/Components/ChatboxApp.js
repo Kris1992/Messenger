@@ -12,6 +12,7 @@ import { getUserBasicData } from '../Api/user_api';
 
 import Chats from './Chats';//change to ChatsApp
 import About from './About';
+import AdminDashboardApp from './AdminDashboardApp';
 
 export default class ChatboxApp extends Component {
     constructor(props) {
@@ -22,7 +23,7 @@ export default class ChatboxApp extends Component {
                 'login': '',
                 'roles': '',
             },
-            test: 'test'
+            isAdmin: false
         };
         //this.componentDidMount = this.componentDidMount.bind(this);
         //this.updateStateField = this.updateStateField.bind(this);
@@ -34,7 +35,6 @@ export default class ChatboxApp extends Component {
 
     componentDidMount() {
         getUserBasicData().then((user) => {
-
                 this.updateStateField('userData', 'login', user.login);
                 this.updateStateField('userData', 'roles', user.roles);
                 this.isAdmin();
@@ -45,9 +45,7 @@ export default class ChatboxApp extends Component {
     updateStateField(parentStateField = null, childStateField, newValue) {
         if( parentStateField !== null) {
             var newParentState = {};
-
             const stateObj = this.state[`${parentStateField}`];
-
 
             Object.entries(stateObj).map(([key, value]) => {
                 if(key === childStateField) {
@@ -58,17 +56,22 @@ export default class ChatboxApp extends Component {
             newParentState[`${parentStateField}`] = stateObj;
 
             this.setState(newParentState);
-            
 
         } else {
-            console.log('parentStateField missing!');    
+            console.log('Only to use for fields with parent');    
         }
 
     }
 
 
     isAdmin() {
-        console.log(this.state.userData.roles);
+        const rolesArray = this.state.userData.roles;
+        const isAdmin = rolesArray.includes('ROLE_ADMIN');
+
+        //Change state only if is (initial is false)
+        if(isAdmin) {
+            this.setState({isAdmin: isAdmin});
+        }   
     }
 
 
@@ -76,7 +79,7 @@ export default class ChatboxApp extends Component {
 
   render() {
 
-    const { userData } = this.state;
+    const { userData, isAdmin } = this.state;
 
     return (
       <Router>
@@ -105,13 +108,14 @@ export default class ChatboxApp extends Component {
                         </NavLink>
                     </li>
 
-
+                    {isAdmin && (
                     <li>
                         <NavLink to="/chatbox/admin" className="menu-item" activeClassName="active">
                             <i className="fas fa-tools"></i>
                             Dashboard
                         </NavLink>
                     </li>
+                    )}
 
                 </ul>
                 <ul className="list-unstyled sidebar-footer">
@@ -142,6 +146,7 @@ export default class ChatboxApp extends Component {
                 <main>
                     <div id="react-content">
                         <Route exact path="/chatbox/chats" component={Chats} />
+                        <Route path="/chatbox/admin" component={AdminDashboardApp} />
                     </div>
                 </main>
             </div>

@@ -33,10 +33,11 @@ class AccountController extends AbstractController
     /**
      * @Route("/api/get_logged_user", name="api_getLoggedUser")
      */
-    public function getLoggedUser()//: Response
+    public function getLoggedUserAction(): Response
     {
-        /** @var \App\Entity\User $user */
+        /** @var User $user */
         $user = $this->getUser();
+        
         $userData = [
             'login' => $user->getLogin(),
             'roles' => $user->getRoles()

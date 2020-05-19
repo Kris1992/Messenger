@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import HomepageContainer from './HomepageContainer';
 import PropTypes from 'prop-types';
-import { loginAction, isUserUnique, registerAction} from '../Api/api';
-import { isEmpty, isEmail, isStrongPassword } from '../Helpers/validationHelper';
-
+import { loginAction, isUserUnique, registerAction} from '../Api/security_api';
+import { isEmpty, isEmail, isStrongPassword } from '../Helpers/validation_helper';
 
 
 export default class HomepageApp extends Component {

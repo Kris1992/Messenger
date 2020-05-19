@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from '../Helpers/validationHelper';
+import { isEmpty } from '../Helpers/validation_helper';
 
 
 export default class LoginPage extends Component {

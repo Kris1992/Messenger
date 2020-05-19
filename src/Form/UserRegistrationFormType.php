@@ -2,12 +2,10 @@
 
 namespace App\Form;
 
-use App\Form\Model\UserRegistrationFormModel;
-
+use App\Model\User\UserModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -26,14 +24,13 @@ class UserRegistrationFormType extends AbstractType
                 'invalid_message' => 'The password fields must match.',
             ])
             ->add('agreeTerms', CheckboxType::class);
-
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => UserRegistrationFormModel::class,
+            'data_class' => UserModel::class,
             'csrf_protection' => false,
         ]);
     }

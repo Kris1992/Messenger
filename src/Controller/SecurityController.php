@@ -10,16 +10,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\UserRepository;
 use App\Form\UserRegistrationFormType;
-use App\Form\Model\UserRegistrationFormModel;
 use Doctrine\ORM\EntityManagerInterface;
-
-
-use App\Entity\User;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Services\FormErrorTransformerInterface;
-
-
-use ReCaptcha\ReCaptcha;
+use App\Services\UserRegistration\UserRegistrationInterface;
+use App\Services\FormErrorTransformer\FormErrorTransformerInterface;
+use App\Services\Checker\CheckerInterface;
 
 /**
  * @ApiRoute()
@@ -49,41 +43,38 @@ class SecurityController extends AbstractController
     /**
      * @Route("/api/is_user_unique", name="api_isUserUnique")
      */
-    public function isUserUnique(Request $request, UserRepository $userRepository): Response
+    public function isUserUniqueAction(Request $request, CheckerInterface $isUserUniqueChecker): Response
     {
-        $fields = array('email', 'login');
         $fieldData = json_decode($request->getContent(), true);
 
-        //Security
-        if(!in_array($fieldData['fieldName'], $fields)) {   
+        try {
+            $isUserUnique = $isUserUniqueChecker->check($fieldData);
+        } catch (\Exception $e) {
             $responseMessage = [
-                'errorMessage' => 'You cannot ask about that data!'
+                'errorMessage' => $e->getMessage()
             ];
-
             return new JsonResponse($responseMessage, Response::HTTP_BAD_REQUEST);
         }
 
-        $user = $userRepository->findOneBy([ $fieldData['fieldName'] => $fieldData['fieldValue'] ]);
-
-        if(!$user) {
+        if (!$isUserUnique) {
             $responseMessage = [
+                'errorMessage' => 'Account with this '.$fieldData['fieldName'].' already exist!'
+            ];
+        
+            return new JsonResponse($responseMessage, Response::HTTP_BAD_REQUEST);
+        }
+        
+        $responseMessage = [
                 'is_unique' => true
             ];
 
-            return new JsonResponse($responseMessage, Response::HTTP_OK);
-        }
-
-        $responseMessage = [
-            'errorMessage' => 'Account with this '.$fieldData['fieldName'].' already exist!'
-        ];
-        
-        return new JsonResponse($responseMessage, Response::HTTP_BAD_REQUEST);
+        return new JsonResponse($responseMessage, Response::HTTP_OK);
     }
     
     /**
      * @Route("/api/register", name="api_register")
      */
-    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, FormErrorTransformerInterface $formErrorTransformer, string $secret_key): Response
+    public function registerAction(Request $request, EntityManagerInterface $entityManager, FormErrorTransformerInterface $formErrorTransformer, UserRegistrationInterface $userRegistration): Response
     {   
         
         $userData = json_decode($request->getContent(), true);
@@ -98,55 +89,34 @@ class SecurityController extends AbstractController
         $form->submit($userData);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            $isHuman = $this->isCatchpaValid($request, $recaptcha, $secret_key);
-            
-            if ($isHuman->isSuccess()) {
-                /*@var UserRegistrationFormModel*/
-                $userModel = new UserRegistrationFormModel();
-                $userModel = $form->getData();
+            $userModel = $form->getData();
 
-                $user = new User();
-                $user->setEmail($userModel->getEmail());
-                $user->setLogin($userModel->getLogin());
-                $user->setRoles(['ROLE_USER']);
-                $user->setPassword($passwordEncoder->encodePassword(
-                    $user,
-                    $userModel->getPlainPassword()
-                ));
-
-                if (true === $userModel->getAgreeTerms()) {
-                    $user->agreeToTerms();
-                }
-            
-                $entityManager->persist($user);
-                $entityManager->flush();
-
-                $responseMessage = [
-                    'message' => 'Account was created.'
-                ];
-
-                return new JsonResponse($responseMessage, Response::HTTP_OK);
-            }
-            else {
+            try {
+                $user = $userRegistration->register(
+                            $request,
+                            $recaptcha,
+                            $userModel
+                        );
+            } catch (\Exception $e) {
+                //tymczasowo
                 $errors[0]['fieldName'] = 'recaptcha';
-                $errors[0]['message'] = 'ReCAPTCHA fails.';
+                $errors[0]['message'] = $e->getMessage();
 
                 return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
             }
 
+            $entityManager->persist($user);
+            $entityManager->flush();
+        
+            $responseMessage = [
+                'message' => 'Account was created.'
+            ];
+
+            return new JsonResponse($responseMessage, Response::HTTP_OK);
         }
 
         $errors = $formErrorTransformer->prepareErrorsToJson($form);
-
         return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
-    }
-
-    private function isCatchpaValid(Request $request, string $captchaValue, string $secret_key)
-    {
-        $recaptcha = new ReCaptcha($secret_key);
-        return $isHuman = $recaptcha->setExpectedHostname($request->getHost())
-                ->verify($captchaValue, $request->getClientIp());
     }
 
 }

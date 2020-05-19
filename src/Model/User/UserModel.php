@@ -1,8 +1,8 @@
 <?php
-namespace App\Form\Model;
+
+namespace App\Model\User;
 
 use Symfony\Component\Validator\Constraints as Assert;
-
 use App\Validator\UniqueUser;
 use App\Validator\ContainsAlphanumeric;
 
@@ -12,7 +12,7 @@ use App\Validator\ContainsAlphanumeric;
 *     fields={"email", "login"}
 *)
 */
-class UserRegistrationFormModel
+class UserModel
 {
     private $id;
 
