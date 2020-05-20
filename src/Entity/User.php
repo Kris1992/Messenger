@@ -62,6 +62,11 @@ class User implements UserInterface
      */
     private $login;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $lastActivity;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -207,6 +212,18 @@ class User implements UserInterface
     public function setLogin(string $login): self
     {
         $this->login = $login;
+
+        return $this;
+    }
+
+    public function getLastActivity(): ?\DateTimeInterface
+    {
+        return $this->lastActivity;
+    }
+
+    public function setLastActivity(\DateTimeInterface $lastActivity): self
+    {
+        $this->lastActivity = $lastActivity;
 
         return $this;
     }

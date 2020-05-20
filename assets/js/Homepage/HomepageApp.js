@@ -70,7 +70,6 @@ export default class HomepageApp extends Component {
         //prevalidation first
         const isPreValid = this.isPreValid(fieldName, fieldValue);
 
-
         //If prevalidation fail dont try check db
         if(isPreValid && fieldName != 'plainPassword') {
             isUserUnique(fieldName, fieldValue).then(result => {
@@ -80,8 +79,7 @@ export default class HomepageApp extends Component {
                     this.updateRegisterValidationMessages(fieldName, 'Validation Error');
                 }
             }).catch(error => {
-                const errorMessage = error.errorMessage;
-                this.updateRegisterValidationMessages(fieldName, errorMessage);
+                this.updateRegisterValidationMessages(fieldName, error.title);
             });
         }
         
@@ -91,11 +89,12 @@ export default class HomepageApp extends Component {
         this.clearServerValidationErrors('register');
         registerAction(userData).then(result => {
             this.setSuccessMessage(result['message']);
-        }).catch(errors => {
-            if(errors.errorMessage) {
-                this.updateRegisterValidationMessages('statusError', errors.errorMessage);
+        }).catch(error => {
+            console.log(error);
+            if(error.type !== 'form_validation_error') {
+                this.updateRegisterValidationMessages('statusError', error.title);
             } else {
-                this.bindErrorsToForms(errors);
+                this.bindErrorsToForms(error);
             }
             
         });
@@ -153,9 +152,11 @@ export default class HomepageApp extends Component {
     }
 
     bindErrorsToForms(errors) {
-        errors.map((error) => {
+        //if (errors.type !== 'model_validation_error') {
+        errors['invalid-params'].map((error) => {
             this.updateRegisterValidationMessages(error.fieldName, error.message);
         });
+       // }
     }
 
     setSuccessMessage(message) {

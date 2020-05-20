@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends BaseFixture
@@ -19,36 +18,46 @@ class UserFixtures extends BaseFixture
     {
         $this->createMany(10, 'main_users', function($i) {
             $user = new User();
-            $user->setEmail(sprintf('user%d@messenger.com', $i));
-            $user->setLogin(sprintf('user%d', $i));
-            $user->setFirstName($this->faker->firstName);
-            $user->setSecondName($this->faker->lastName);
-            $user->setRoles(['ROLE_USER']);
+            $user
+                ->setEmail(sprintf('user%d@messenger.com', $i))
+                ->setLogin(sprintf('user%d', $i))
+                ->setFirstName($this->faker->firstName)
+                ->setSecondName($this->faker->lastName)
+                ->setRoles(['ROLE_USER'])
+                ->setLastActivity(new \DateTime())
+                ->setBirthdate($this->faker->dateTime)
+                ->setGender($this->faker->randomElement($array = array ('male','female')))
+                ->agreeToTerms()
+                ;
+
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 'Admin01'
             ));
-            $user->setBirthdate($this->faker->dateTime);
-            $user->setGender($this->faker->randomElement($array = array ('male','female')));
-            $user->agreeToTerms(); 
+            
             return $user;
         });
 
         //Admins
         $this->createMany(3, 'admin_users', function($i) {
             $user = new User();
-            $user->setEmail(sprintf('admin%d@messenger.com', $i));
-            $user->setLogin(sprintf('admin%d', $i));
-            $user->setFirstName($this->faker->firstName);
-            $user->setSecondName($this->faker->lastName);
-            $user->setRoles(['ROLE_ADMIN']);
+            $user
+                ->setEmail(sprintf('admin%d@messenger.com', $i))
+                ->setLogin(sprintf('admin%d', $i))
+                ->setFirstName($this->faker->firstName)
+                ->setSecondName($this->faker->lastName)
+                ->setRoles(['ROLE_ADMIN'])
+                ->setLastActivity(new \DateTime())
+                ->setBirthdate($this->faker->dateTime)
+                ->setGender($this->faker->randomElement($array = array ('male','female')))
+                ->agreeToTerms()
+                ;
+
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 'Admin01'
             ));
-            $user->setBirthdate($this->faker->dateTime);
-            $user->setGender($this->faker->randomElement($array = array ('male','female')));
-            $user->agreeToTerms();
+
             
             return $user;
         });
